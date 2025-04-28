@@ -1,8 +1,7 @@
-public interface Tarif {
-    String name = "";
-    int price = 0;
+public abstract class Tarif {
+    private int price;
 
-    public void setName();
-
-    public void set
+    protected Tarif(int price) {
+        this.price = price;
+    }
 }
