@@ -1,4 +1,4 @@
-public class Ermaessigt implements Tarif {
+/*public class Ermaessigt implements Tarif {
 
     public Ermaessigt() {
         int price = 7;
@@ -8,3 +8,4 @@ public class Ermaessigt implements Tarif {
 
 
 }
+*/

@@ -1,4 +1,4 @@
-public class Tickettarife {
+/*public class Tickettarife {
     public static Tarif druckTicket(String ticketName) {
         if (ticketName.equalsIgnoreCase("Ermaeßigt")) {
             return new Ermaessigt();
@@ -8,3 +8,4 @@ public class Tickettarife {
         return null;
     }
 }
+*/

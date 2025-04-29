@@ -4,4 +4,8 @@ public abstract class Tarif {
     protected Tarif(int price) {
         this.price = price;
     }
+
+   public String getName(){
+        return "test";
+   };
 }

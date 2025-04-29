@@ -86,8 +86,37 @@ public class UserInterface {
     public void enterAdmin() {
         System.out.println("Work in progress");
     }
+
+    public Tarif whichTarif(){
+        System.out.printf("Which tarif are you paying? Discounted or Normal\n");
+            String wantedTarif = scanner.nextLine();
+
+
+                Tarif tarif = TarifFactory.createTarif(wantedTarif,1);
+                return tarif;
+    }
+
     public void startBooking() {
-        System.out.println("Not finished yet");
+
+
+        System.out.println("Which movie would you like to watch?");
+
+        String input = scanner.nextLine();
+
+        for(Show a : showList){
+            if(a.getMovie().getShortName().equals(input)){
+               Tarif tarif = whichTarif();
+            Ticket ticket = new Ticket(a,1,tarif);
+            System.out.println(ticket);
+            break;
+            }
+
+        }
+
+
+
+
+
     }
     public void loadMovies() {
         Movie matrix = new Movie("The Matrix: Return of the Sith", " Matrix", 123);

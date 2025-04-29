@@ -27,7 +27,7 @@ public class Show {
 
     @Override
     public String toString() {
-        return "Name: " + movie.getMovieName() + "  --  Start Time: " + getStartTime() + "  --  Duration: " + movie.getDuration()+ " min";
+        return "Name: " + movie.getMovieName() + "  --  Start time(entrance starts 10min before): " + getStartTime() + "  --  Duration: " + movie.getDuration()+ " min\n";
 
     }
 }
