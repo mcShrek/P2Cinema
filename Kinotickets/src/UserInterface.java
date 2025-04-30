@@ -7,11 +7,11 @@ import java.util.Scanner;
 
 public class UserInterface {
     private Scanner scanner;
-    private List<Show> showList;
+    private List<Room> rooms;
 
     public UserInterface(Scanner scanner) {
         this.scanner = scanner;
-        showList = new ArrayList<>();
+        rooms = new ArrayList<>();
         loadMovies();
     }
 
@@ -77,9 +77,11 @@ public class UserInterface {
 
     public void showMovies(LocalDate date, LocalTime time) {
         System.out.println("\nAvailable movies:");
-        for(Show show : showList) {
-            if(show.getDate().equals(date) && show.getStartTime().isAfter(time)){
-                System.out.println(show);
+        for(Room r : rooms) {
+            for(Show s : r.getShows()) {
+                if(s.getDate().equals(date) && s.getStartTime().isAfter(time)) {
+                    System.out.println("Room: " + r + " " + s);
+                }
             }
         }
         System.out.println();
@@ -103,27 +105,48 @@ public class UserInterface {
 
         System.out.println("Which movie would you like to watch?");
 
-        String input = scanner.nextLine().toLowerCase(Locale.ROOT);
+        String reqMovie = scanner.nextLine().toLowerCase(Locale.ROOT);
+        if(rooms. reqMovie)
         LocalDate ld = askForDate();
         LocalTime lt = askForTime();
 
-        for(Show a : showList){
-            if(a.getMovie().getShortName().equals(input) && lt.equals(a.getStartTime())) {
-               Tarif tarif = whichTarif(a);
-            Ticket ticket = new Ticket(a,1,tarif);
-            System.out.println(ticket);
-            break;
-            }
+        for(Room r : rooms) {
+            for (Show s : r.getShows()) {
+                if (s.getMovie().getShortName().equals(reqMovie) && ld.equals(s.getDate()) && lt.equals(s.getStartTime())) {
+                    Tarif tarif = whichTarif(s);
+                    Ticket ticket = new Ticket(s, 1, tarif);
+                    System.out.println(ticket);
+                    break;
+                }
 
+            }
+        }
+    }
+
+    public void printProgramByMonth(int month) {
+        for (Room room : rooms) {
+            System.out.println("Program for " + room + ":");
+            for (Show s : room.getShows()) {
+                if (s.getDate().getMonthValue() == month) {
+                    System.out.println(s);
+                }
+            }
         }
     }
     public void loadMovies() {
+        rooms = new ArrayList<>();
+        Room room1 = new Room(1);
+        Room room2 = new Room(2);
+
         Movie matrix = new Movie("The Matrix: Return of the Sith", "matrix", 123, 12);
         Movie inception = new Movie("Inception: Tough Time Never Last", "inception", 250, 14);
         Movie avatar = new Movie("Avatar: The Last Airbender", "avatar", 162, 16);
-        showList.add(new Show (LocalDate.of(2025, 5, 1), LocalTime.of(18, 30), matrix));
-        showList.add(new Show (LocalDate.of(2025, 5, 1), LocalTime.of(20, 0), inception));
-        showList.add(new Show (LocalDate.of(2025, 5, 2), LocalTime.of(17, 0), avatar));
+        room1.addShow(new Show (LocalDate.of(2025, 5, 1), LocalTime.of(18, 30), matrix));
+        room1.addShow(new Show (LocalDate.of(2025, 5, 1), LocalTime.of(20, 0), inception));
+        room2.addShow(new Show (LocalDate.of(2025, 5, 2), LocalTime.of(17, 0), avatar));
+
+        rooms.add(room1);
+        rooms.add(room2);
     }
 
 }
