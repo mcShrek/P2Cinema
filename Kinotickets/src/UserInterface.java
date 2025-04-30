@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -29,7 +30,7 @@ public class UserInterface {
                 }
                 case 1 -> listMovies();
                 case 2 -> startBooking();
-                case 4711 -> enterAdmin();
+                //case 4711 -> enterAdmin();
                 default -> System.out.println("Invalid option. Please try again.");
                 }
             }
@@ -83,17 +84,18 @@ public class UserInterface {
         }
         System.out.println();
     }
-    public void enterAdmin() {
-        System.out.println("Work in progress");
-    }
 
-    public Tarif whichTarif(){
-        System.out.printf("Which tarif are you paying? Discounted or Normal\n");
-            String wantedTarif = scanner.nextLine();
+    public Tarif whichTarif(Show s) {
+        while (true) {
+            System.out.println("Which tarif are you paying? (normal / discounted)");
+            String wantedTarif = scanner.nextLine().trim().toLowerCase();
 
-
-                Tarif tarif = TarifFactory.createTarif(wantedTarif,1);
-                return tarif;
+            try {
+                return TarifFactory.createTarif(wantedTarif, s.getMovie().getPrice());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid tarif type. Please enter 'normal' or 'discounted'.");
+            }
+        }
     }
 
     public void startBooking() {
@@ -101,27 +103,24 @@ public class UserInterface {
 
         System.out.println("Which movie would you like to watch?");
 
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().toLowerCase(Locale.ROOT);
+        LocalDate ld = askForDate();
+        LocalTime lt = askForTime();
 
         for(Show a : showList){
-            if(a.getMovie().getShortName().equals(input)){
-               Tarif tarif = whichTarif();
+            if(a.getMovie().getShortName().equals(input) && lt.equals(a.getStartTime())) {
+               Tarif tarif = whichTarif(a);
             Ticket ticket = new Ticket(a,1,tarif);
             System.out.println(ticket);
             break;
             }
 
         }
-
-
-
-
-
     }
     public void loadMovies() {
-        Movie matrix = new Movie("The Matrix: Return of the Sith", " Matrix", 123);
-        Movie inception = new Movie("Inception: Tough Time Never Last", "Inception", 250);
-        Movie avatar = new Movie("Avatar: The Last Airbender", "Avatar", 162);
+        Movie matrix = new Movie("The Matrix: Return of the Sith", "matrix", 123, 12);
+        Movie inception = new Movie("Inception: Tough Time Never Last", "inception", 250, 14);
+        Movie avatar = new Movie("Avatar: The Last Airbender", "avatar", 162, 16);
         showList.add(new Show (LocalDate.of(2025, 5, 1), LocalTime.of(18, 30), matrix));
         showList.add(new Show (LocalDate.of(2025, 5, 1), LocalTime.of(20, 0), inception));
         showList.add(new Show (LocalDate.of(2025, 5, 2), LocalTime.of(17, 0), avatar));

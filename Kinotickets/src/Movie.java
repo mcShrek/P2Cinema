@@ -1,15 +1,14 @@
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 public class Movie {
     private String movieName;
     private String shortName;
     private int duration;
+    private int price;
 
-    public Movie(String movieName, String shortName, int duration) {
+    public Movie(String movieName, String shortName, int duration, int price) {
         this.movieName = movieName;
         this.shortName = shortName;
         this.duration = duration;
+        this.price = price;
     }
 
     public String getMovieName() {
@@ -23,5 +22,9 @@ public class Movie {
 
     public int getDuration() {
         return duration;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

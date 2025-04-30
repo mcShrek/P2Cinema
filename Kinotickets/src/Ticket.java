@@ -18,6 +18,14 @@ public class Ticket {
     public String toString() {
         return ("Ticket\n" + show.toString() +
                 "Room: " + room + "\n"
-                + "Tarif: " + tarif.getName());
+                + "Tarif: " + tarif.getName()+ "\n" +
+                "Price: " + isThursday(tarif.getPrice()));
+    }
+
+    public double isThursday(double price) {
+        if(show.getDate().getDayOfWeek().getValue() == 4) {
+            return price * 0.7;
+        }
+        return price;
     }
 }
