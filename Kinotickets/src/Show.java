@@ -6,8 +6,9 @@ public class Show {
     private LocalDate date;
     private LocalTime startTime;
     private Movie movie;
+    private Room room;
 
-    public Show(LocalDate date, LocalTime startTime, Movie movie) {
+    public Show(LocalDate date, LocalTime startTime, Movie movie, Room room ) {
         this.date = date;
         this.startTime = startTime;
         this.movie = movie;
@@ -24,7 +25,9 @@ public class Show {
     public Movie getMovie() {
         return movie;
     }
-
+    public Room getRoom(){
+        return room;
+    }
     @Override
     public String toString() {
         return "Name: " + movie.getMovieName() + "  --  Start time(entrance starts 10min before): " + getStartTime() + "  --  Duration: " + movie.getDuration()+ " min\n";

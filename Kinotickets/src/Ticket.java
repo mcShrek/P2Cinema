@@ -4,11 +4,11 @@ import java.time.LocalTime;
 
 public class Ticket {
 
-    private int room;
+    private Room room;
     private Tarif tarif;
     private Show show;
 
-    public Ticket(Show show, int room, Tarif tarif) { // Room room zu int room geändert
+    public Ticket(Show show, Room room, Tarif tarif) { // Room room zu int room geändert
         this.show = show;
         this.room = room;
         this.tarif = tarif;
@@ -17,7 +17,7 @@ public class Ticket {
     @Override
     public String toString() {
         return ("Ticket\n" + show.toString() +
-                "Room: " + room + "\n"
+                "Room: " + room.getRoomNumber() + "\n"
                 + "Tarif: " + tarif.getName()+ "\n" +
                 "Price: " + isThursday(tarif.getPrice()));
     }
@@ -28,4 +28,5 @@ public class Ticket {
         }
         return price;
     }
+
 }

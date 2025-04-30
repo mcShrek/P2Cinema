@@ -24,6 +24,6 @@ public class Room {
 
     public String toString() {
         return "Room " + roomNumber;
-    }
-    public
+}
+
 }
