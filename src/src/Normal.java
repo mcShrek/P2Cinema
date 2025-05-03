@@ -1,6 +1,7 @@
 public class Normal extends Tarif {
 
     protected Normal(int price) {
+
         super(price);
     }
 

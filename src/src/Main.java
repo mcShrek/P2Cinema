@@ -10,7 +10,6 @@ public class Main {
     public Main() {
         scanner = new Scanner(System.in);
         data = new Database();
-        data.loadMovies();
         ui = new UserInterface(scanner,data);
         ai = new AdminInterface(scanner,data);
 
@@ -23,22 +22,14 @@ public class Main {
     }
 
     public void whichUser() {
-        while(true){
-        System.out.print("For User interface type 1\n" +
-                        "for AdminInterface please type 2\n" +
-                        " 0 to stop programm\n");
+        System.out.print("For User interface type 1, for AdminInterface type 2");
 
         int input = HelpMethods.askForInt(scanner);
 
         switch (input) {
-            case 0 -> {
-                System.out.println("Program ends");
-                return;
-            }
             case 1 -> ui.start();
             case 2 -> ai.start();
-            default -> System.out.println("Please enter either 0,1 or 2");
-            }
+            default -> System.out.println("Ungültige Eingabe");
         }
     }
 }

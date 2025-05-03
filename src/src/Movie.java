@@ -33,9 +33,4 @@ public class Movie {
     public void setPrice(int price){
         this.price = price;
     }
-    @Override
-    public String toString() {
-        return movieName + " (" + shortName + "), " + duration + " min, " + price + " €";
-    }
-
 }

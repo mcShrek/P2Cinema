@@ -8,7 +8,7 @@ public class Ticket {
     private Tarif tarif;
     private Show show;
 
-    public Ticket(Show show, Room room, Tarif tarif) {
+    public Ticket(Show show, Room room, Tarif tarif) { // Room room zu int room geändert
         this.show = show;
         this.room = room;
         this.tarif = tarif;
@@ -24,7 +24,7 @@ public class Ticket {
 
     public double isThursday(double price) {
         if(show.getDate().getDayOfWeek().getValue() == 4) {
-            return Math.round((price * 0.7)*100.0)/100.0;
+            return price * 0.7;
         }
         return price;
     }

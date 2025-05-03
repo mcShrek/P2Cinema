@@ -4,17 +4,20 @@ import java.util.*;
 
 public class UserInterface {
     private Scanner scanner;
+    private List<Show> showList;
     private Database data;
 
     public UserInterface(Scanner scanner, Database data) {
         this.scanner = scanner;
-        this.data = data;
+        showList = new ArrayList<>();
+        this.data = new Database();
+        loadMovies();
     }
 
     public void start() {
         while(true) {
             System.out.print("Hello - please select an option:\n"+
-                    "0 -- To return to start\n" +
+                    "0 -- End the program\n" +
                     "1 -- List all movies by date\n" +
                     "2 -- Start booking process\n" +
                     "3 -- List all Movies by room\n" +
@@ -42,9 +45,43 @@ public class UserInterface {
         showMovies(date, time);
     }
 
+   /* private LocalDate askForDate() {
+        while (true) {
+            try {
+                System.out.println("Please type a date in the following format YYYY-MM-DD:");
+                return LocalDate.parse(scanner.nextLine());
+            } catch (Exception e) {
+                System.out.println("Invalid date format. Try again.");
+            }
+        }
+    }*/
+
+    /*private LocalTime askForTime() {
+        while (true) {
+            try {
+                System.out.println("Please type the earliest time you can come (format HH:MM):");
+                return LocalTime.parse(scanner.nextLine());
+            } catch (Exception e) {
+                System.out.println("Invalid time format. Try again.");
+            }
+        }
+
+    }*/
+
+    /*private int askForInt() {
+        while (true) {
+            try {
+                String input = scanner.nextLine();
+                return Integer.parseInt(input);
+            } catch (Exception e) {
+                System.out.println("Invalid number. Please enter a valid number.");
+            }
+        }
+    }*/
+
     public void showMovies(LocalDate date, LocalTime time) {
         System.out.println("\nAvailable movies:");
-        for(Show show : data.getShowList()) {
+        for(Show show : showList) {
             if(show.getDate().equals(date) && show.getStartTime().isAfter(time)){
                 System.out.println(show);
             }
@@ -66,7 +103,7 @@ public class UserInterface {
     }
 
     public boolean checkMovie(String input){
-        for(Show a : data.getShowList()){
+        for(Show a : showList){
             if(a.getMovie().getShortName().equals(input)){
                 return true;
             }
@@ -89,15 +126,12 @@ public class UserInterface {
         LocalDate ld = HelpMethods.askForDate(scanner);
         LocalTime lt = HelpMethods.askForTime(scanner);
 
-        for(Show a : data.getShowList()) {
-            if (a.getMovie().getShortName().equals(input) && lt.equals(a.getStartTime())&&ld.equals(a.getDate())) {
+        for(Show a : showList) {
+            if (a.getMovie().getShortName().equals(input) && lt.equals(a.getStartTime())) {
                 Tarif tarif = whichTarif(a);
                 Ticket ticket = new Ticket(a, a.getRoom(), tarif);
                 System.out.println(ticket);
-                return;
-            } else{
-                System.out.println("We do not have a show Matching your wishes. Please check our program again");
-                return;
+                break;
             }
         }
 
@@ -106,7 +140,7 @@ public class UserInterface {
 
     public void showProgram() {
         Map<Room, List<Show>> sortedShows = new TreeMap<>();
-        for(Show a : data.getShowList()){
+        for(Show a : showList){
             sortedShows.putIfAbsent(a.getRoom(),new ArrayList<>());
             sortedShows.get(a.getRoom()).add(a);
         }
@@ -116,18 +150,18 @@ public class UserInterface {
                System.out.println(b.toString());
             }
         }
-    }
+    } // noch nicht getestet aber ist vlt logisch
 
     public void showByMonth(){
         System.out.println("For which Month would you like too see the Program? Please use the numbers 1-12");
         Scanner scanner = new Scanner(System.in);
-        int month = HelpMethods.askForInt(scanner);
-        if (1 > month || month >= 13) {
-            System.out.println("Please define Month with the Numbers(1-12)");
+        int month = Integer.valueOf(scanner.nextLine());
+        if (1 > month || month > 13) {
+        throw new IllegalArgumentException("Please define Month with the Numbers(1-12)");
         }
-        for(Show a : data.getShowList()){
+        for(Show a : showList){
             if(a.getDate().getMonthValue() == month){
-                System.out.println(a);
+                System.out.print(a);
             }
         }
     }
@@ -139,7 +173,7 @@ public class UserInterface {
         System.out.print("Please enter your End date?");
         LocalDate endDate = HelpMethods.askForDate(scanner);
 
-        for(Show a : data.getShowList()){
+        for(Show a : showList){
             if(startDate.isBefore(a.getDate()) && a.getDate().isBefore(endDate)||(a.getDate().isEqual(startDate)||(a.getDate().isEqual(endDate)))){
                 System.out.print(a);
             }
@@ -164,4 +198,15 @@ public class UserInterface {
         }
         return true;
     }
+
+
+    public void loadMovies() {
+        Movie matrix = new Movie("The Matrix: Return of the Sith", "matrix", 123, 12);
+        Movie inception = new Movie("Inception: Tough Time Never Last", "inception", 250, 14);
+        Movie avatar = new Movie("Avatar: The Last Airbender", "avatar", 162, 16);
+        showList.add(new Show (LocalDate.of(2025, 5, 1), LocalTime.of(18, 30) , matrix,(new Room(1))));
+        showList.add(new Show (LocalDate.of(2025, 5, 1), LocalTime.of(20, 0), inception,(new Room(2))));
+        showList.add(new Show (LocalDate.of(2025, 5, 2), LocalTime.of(17, 0) , avatar,(new Room (2))));
+    }
+
 }
